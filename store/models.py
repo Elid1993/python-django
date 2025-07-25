@@ -65,3 +65,5 @@ class Book(BaseModel):
 
     def __str__(self):
         return f"{self.title} | {self.author} | {self.publication} | {self.amount}"
+
+# Create your models here.
