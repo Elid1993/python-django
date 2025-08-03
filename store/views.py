@@ -4,9 +4,8 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Author, Book, Publication
 from .serializers import (
     AuthorSerializer,
-    BookCreateSerializer,
-    BookReadSerializer,
-    PublicationSerializer,
+    BookSerializer,
+    PublicationSerializer
 )
 
 
@@ -50,7 +49,7 @@ class PublicationViewSet(ModelViewSet):
 
 class BookViewSet(ModelViewSet):
     queryset = Book.objects.all()
-    serializer_class = BookReadSerializer
+    serializer_class = BookSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_permissions(self):
@@ -63,11 +62,7 @@ class BookViewSet(ModelViewSet):
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
-    def get_serializer_class(self):
-        if self.action in ["list", "retrieve"]:
-            return BookReadSerializer
-        else:
-            return BookCreateSerializer
+    
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
